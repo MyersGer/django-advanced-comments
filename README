@@ -1,0 +1,54 @@
+About
+-----
+
+Advanced-comments is an extension/customization to the standard Django new comments framework.
+It currently supports basic features that are often used by blogs:
+    
+    * spamprotection using Akismet(needs valid AkismetAPIKey)
+    * Gravatsupport
+
+It can also be used as a base for additional features by subclassing from it.
+
+
+Installation
+------------
+
+1.Copy the advanced-comments directory into your project.
+
+The following part is most the same as the Django documentation describes the usage of the django.contrib.comments
+(http://docs.djangoproject.com/en/dev/ref/contrib/comments/ perhaps you want to take a look at it):
+
+2. Install the comments framework by adding 'django.contrib.comments' to INSTALLED_APPS.
+3. Install advanced-comments by adding 'advanced-comments' to INSTALLED_APPS.
+4. Add (r'^comments/', include('django.contrib.comments.urls')) to your URL patterns in your urls.py.
+5. Add COMMENTS_APP = 'advanced-comments' to your settings.py
+6. run python manage.py syncdb
+7. setup the ADV_COMMENTS_AKISMET_API_KEY variable in settings.py (see configuration)
+
+
+Configuration
+-------------
+
+To configure advanced-comments you can use some settings variables:
+
+ADV_COMMENTS_GRAVATAR_S: sets the size (pixels) of a Gravatar (default is 80)
+ADV_COMMENTS_GRAVATAR_D: sets the default graphics, if no Gravatar was found (fully referenced URL)
+ADV_COMMENTS_SPAMPROTECTION: you can set this to False if you want to turn off Spamdetection (default is True)
+ADV_COMMENTS_AKISMET_API_KEY: holds the Akismet API key. If ADV_COMMENTS_SPAMPROTECTION is not set to False you'll
+                              get an exception when not defining this variable.
+
+
+Usage
+-----
+
+To use the comments just do it like Django's documentation describes the usage of comments in templates.
+You are able to get a Gravatar through {{comment.gravatar}} (e.g. you can use it with image-tags).
+The spamdetection works without any further actions. Any detected spam will result in an 400 (bad request) error an will
+not be stored in the database.
+
+
+
+If you find any errors please conctact me.
+
+Issues: http://redmine.burningsquirrel.net/projects/dj-advc
+Git repository: http://github.com/MyersGer/django-advanced-comments
