@@ -1,18 +1,3 @@
-#    This file is part of django-advanced-comments.
-
-#    django-advanced-comments is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Lesser General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-
-#    django-advanced-comments is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Lesser General Public License for more details.
-
-#    You should have received a copy of the GNU Lesser General Public License
-#    along with django-advanced-comments.  If not, see <http://www.gnu.org/licenses/>.
-
 import hashlib
 from django.contrib.comments.signals import comment_will_be_posted
 from django.contrib.comments.models import Comment
@@ -29,14 +14,18 @@ class AdvancedComment(Comment):
         gravatar_url = "http://www.gravatar.com/avatar/"
         gravatar_url += hashlib.md5(self.user_email.lower()).hexdigest()
 
-        if hasattr(settings, 'ADV_COMMENT_GRAVATAR_S') or hasattr(settings, 'ADV_COMMENTS_GRAVATAR_D'):
+        if hasattr(settings, 'ADV_COMMENTS_GRAVATAR_S') or hasattr(settings, 'ADV_COMMENTS_GRAVATAR_D'):
             gravatar_url += '?'
         
         if hasattr(settings, 'ADV_COMMENTS_GRAVATAR_S'):
-            gravatar_url += 's='+str(settings.ADV_COMMENT_GRAVATAR_S)
+            gravatar_url += 's='+str(settings.ADV_COMMENTS_GRAVATAR_S)
 
         if hasattr(settings, 'ADV_COMMENTS_GRAVATAR_D'):
-            gravatar_url += '?d='+settings.ADV_COMMENT_GRAVATAR_D
+            
+            if hasattr(settings, 'ADV_COMMENTS_GRAVATAR_S'):
+                gravatar_url += '&'
+                
+            gravatar_url += 'd='+settings.ADV_COMMENTS_GRAVATAR_D
 
 
         return gravatar_url
